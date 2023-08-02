@@ -1,0 +1,38 @@
+version: '2'
+
+services:
+  mysql_problem:
+    hostname: problemdb
+    container_name: problemdb
+    image: mysql:8.0.31
+    restart: always
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      MYSQL_ROOT_PASSWORD: "@123123abc"
+      MYSQL_DATABASE: "problemdb"
+      MYSQL_TCP_PORT: 3307
+    ports:
+      - "3307:3307"
+    networks:
+      - kong-net
+
+  problem_service:
+    hostname: manageservice
+    container_name: manage-service
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+    ports:
+      - "3002:3002"
+      - "50051:50051"
+    depends_on:
+      - mysql_problem
+    networks:
+      - kong-net
+
+networks:
+  kong-net:
+    external: true

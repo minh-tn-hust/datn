@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+service ProblemManageService {
+    rpc GetTestCase(Problem) returns (GetTestCaseResponse) {}
+}
+
+message Problem {
+    int32 problemId = 1;
+}
+
+message GetTestCaseResponse {
+    bool status = 1;
+    string message = 2;
+    repeated string inps = 3;
+    repeated string outs = 4;
+}

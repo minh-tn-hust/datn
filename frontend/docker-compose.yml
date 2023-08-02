@@ -1,0 +1,16 @@
+version: '2'
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
+    networks:
+      - kong-net
+
+networks:
+  kong-net:
+    external: true

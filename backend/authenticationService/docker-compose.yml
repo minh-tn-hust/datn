@@ -1,0 +1,35 @@
+version: '2'
+
+services:
+  mysql_authen:
+    hostname: authendb
+    container_name: authen-db
+    image: mysql:8.0.31
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: "@123123abc"
+      MYSQL_DATABASE: "authendb"
+      MYSQL_TCP_PORT: 3309
+    networks:
+      - kong-net
+    ports:
+      - "3309:3309"
+
+  authen_service:
+    hostname: authenservice
+    container_name: authen-service
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+    ports:
+      - "3001:3001"
+    depends_on:
+      - mysql_authen
+    networks:
+      - kong-net
+
+networks:
+  kong-net:
+    external: true

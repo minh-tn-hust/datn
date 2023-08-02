@@ -1,0 +1,58 @@
+_format_version: "3.0"
+_transform: true
+
+services:
+  - host: authenservice
+    name: kong-authen-service
+    port: 3001
+    protocol: http
+    routes:
+      - name: authen-route
+        paths:
+          - /auth
+        strip_path: true
+  - host: manageservice
+    name: manage-service
+    port: 3002
+    protocol: http
+    routes:
+      - paths:
+          - /problem-manage
+        strip_path: true
+  - host: executionservice
+    name: execution-service
+    port: 3003
+    protocol: http
+    routes:
+      - paths:
+          - /execution-service
+        strip_path: true
+
+plugins:
+  - name: custom-authen
+    enabled: true
+    config:
+      introspection_endpoint: "http://authenservice:3001/api/auth/inspectator"
+      token_header: "x-access-token"
+  - name: cors
+    config:
+      origins:
+      - http://localhost:3000
+      methods:
+      - GET
+      - POST
+      headers:
+      - Accept
+      - Accept-Version
+      - Content-Length
+      - Content-MD5
+      - Content-Type
+      - Authorization
+      - Content-Type
+      - X-Access-Token
+      - Access-Control-Allow-Origin
+      exposed_headers:
+      - X-Access-Token
+      credentials: true
+      max_age: 86400
+      preflight_continue: false
