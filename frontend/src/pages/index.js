@@ -17,7 +17,6 @@ export default function Home() {
   const router = useRouter();
   const dispatch = useDispatch();
   const username = useSelector(getUsername);
-  // router.push("/problems")
 
   useEffect(() => {
     dispatch(changeToHomePage());

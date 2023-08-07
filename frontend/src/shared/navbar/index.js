@@ -81,10 +81,10 @@ export default function NavBar(props) {
   };
 
   const routes = [
-    { href: "/", title: "Homepage", enum: ROUTES.HOME_PAGE },
-    { href: "/problems", title: "Problems", enum: ROUTES.LIST_PROBLEM },
-    { href: "/authentication", title: "Sign In", enum: ROUTES.AUTHEN },
-    { href: "/admin", title: "Problems Manage", enum: ROUTES.ADMIN },
+    { href: "/", title: "Trang chủ", enum: ROUTES.HOME_PAGE },
+    { href: "/problems", title: "Danh sách đề bài", enum: ROUTES.LIST_PROBLEM },
+    { href: "/authentication", title: "Đăng nhập", enum: ROUTES.AUTHEN },
+    { href: "/admin", title: "Quản lý", enum: ROUTES.ADMIN },
   ];
 
   const loginPage = routes[2];

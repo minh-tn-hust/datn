@@ -8,17 +8,16 @@ import ExecuteButton, {
 import ProblemList from "@/pages/admin/components/ProblemList";
 import AdminApi from "@/network/adminApi";
 import { getAuthenRole } from "@/reducers/authentication/authenticationSelector";
+import ListUser from "./components/ListUser";
+import { SetMealSharp } from "@mui/icons-material";
 
 export const ADMIN_FEATURE = {
   MANAGE_PROBLEM: "manageproblem",
+  MANAGE_USER : "manage_user"
 };
 
 export default function AdminstrationPage(props) {
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(changeToAdminPage());
-  }, []);
 
   const features = [
     {
@@ -26,18 +25,46 @@ export default function AdminstrationPage(props) {
       title: "Problems",
       onClick: () => {},
     },
+    {
+      enum : ADMIN_FEATURE.MANAGE_USER,
+      title: "Users",
+      onClick : () => {}
+    }
   ];
+
+  const [selectedFeature, setSelectedFeature] = useState(ADMIN_FEATURE.MANAGE_PROBLEM);
+
+  const onChangeToListUser = function() {
+    setSelectedFeature(ADMIN_FEATURE.MANAGE_USER);
+  }
+
+  const onChangeToListProblem = function() {
+    setSelectedFeature(ADMIN_FEATURE.MANAGE_PROBLEM);
+  }
+
+  useEffect(() => {
+    dispatch(changeToAdminPage());
+  }, []);
+
+  const displayFeature = function() {
+    switch(selectedFeature){
+      case ADMIN_FEATURE.MANAGE_PROBLEM:
+      case ADMIN_FEATURE.MANAGE_USER:
+        return <ListUser/>
+    }
+  }
+
 
   const [reload, setReload] = useState(true);
 
   const handleCreateProblem = () => {
     AdminApi.createProblem({
       hardLevel: "easy",
-      problemName: "Default problem name",
-      description: "Default description",
-      statement: "Default statement",
-      input: "Default input",
-      output: "Default output",
+      problemName: "Tên đề bài mặc định",
+      description: "Miêu tả mặc định",
+      statement: "Yêu cầu mặc định",
+      input: "Đầu vào mặc định",
+      output: "Đầu ra mặc định",
     }).then(setReload(true));
   };
 
@@ -48,7 +75,10 @@ export default function AdminstrationPage(props) {
         currentFeature={ADMIN_FEATURE.MANAGE_PROBLEM}
       />
       <div className={"w-10/12"}>
-        <ProblemList reload={reload} setReload={setReload} />
+        {
+          displayFeature()
+        }
+        {/* <ProblemList reload={reload} setReload={setReload} />
         <div className={"w-full px-5"}>
           <ExecuteButton
             title={"Create challenge"}
@@ -56,7 +86,7 @@ export default function AdminstrationPage(props) {
             handleRunClick={handleCreateProblem}
             className={"w-full h-[40px] bg-sky-400 hover:bg-sky-500"}
           />
-        </div>
+        </div> */}
       </div>
     </div>
   );

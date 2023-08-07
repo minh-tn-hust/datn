@@ -13,7 +13,7 @@ export default function ProblemName({ value, onChange, ...props }) {
     <TextField
       size="medium"
       id="problemName"
-      label="Problem Name"
+      label="Tên đề bài"
       variant="standard"
       value={value}
       onChange={handleChangeName}

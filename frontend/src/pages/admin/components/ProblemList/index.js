@@ -39,12 +39,12 @@ export default function ProblemList({ reload, setReload, props }) {
           "w-full h-[40px] bg-slate-200 rounded border border-slate-300 mb-2 flex flex-row px-3 gap-2 justify-around items-center font-semibold"
         }
       >
-        <div>{"Problem Name"}</div>
+        <div>{"Tên đề bài"}</div>
       </div>
       {
         !problemList.length ? (
           <div className={"font-medium text-slate-700 text-center mb-10 mt-5"}>
-            There are no problem in records
+            Chưa có đề bài nào được ghi nhận
           </div>
         )
           :
