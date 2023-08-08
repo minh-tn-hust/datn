@@ -132,3 +132,104 @@ exports.getUserInfo = async (req, res) => {
     });
   }
 };
+
+exports.getAllUser = async (req, res) => {
+  let listUser = await User.findAll();
+
+  let listResponse = [];
+  for (let user of listUser) {
+
+    let responseRoles = [];
+    let userRoles = await user.getRoles();
+    for (let role of userRoles) {
+      responseRoles.push(role.dataValues.name);
+    }
+
+    listResponse.push({
+      userName : user.username,
+      email : user.email,
+      roles : responseRoles,
+      id : user.id
+    });
+  }
+
+  res.status(200).send(listResponse);
+};
+
+exports.removeRole = async (req, res) => {
+  let userId = req.body.userId;
+  let removedRole =  req.body.role;
+
+  let user = await User.findOne({
+    where : {id : userId}
+  });
+
+  if (!user) {
+    res.status(404).send({messgae : "Người dùng này không tồn tại trong hệ thống"});
+  }
+
+  let roles = await user.getRoles();
+  let hasRole = false;
+  for (let role of roles) {
+    if (role.dataValues.id === db.roleToId(removedRole)) {
+      hasRole = true;
+    }
+  }
+
+  if (hasRole) {
+    try {
+      await user.removeRoles([db.roleToId(removedRole)]);
+      res.status(200).send({
+        message : `Cập nhật quyền thành công`,
+        userId : userId,
+        role : role
+      });
+    } catch (error) {
+      res.status(500).send({message : `Không thể thực hiện xóa quyền này khỏi người dùng ${user.dataValues.username}`})
+    }
+  } else {
+    res.status(500).send({message : `Người dùng ${user.username} không có quyền ${removedRole}, không thể xóa quyền.` })
+  }
+};
+
+
+exports.addRole = async (req, res) => {
+  let userId = req.body.userId;
+  let addedRole =  req.body.role;
+
+  let user = await User.findOne({
+    where : {id : userId}
+  });
+
+  if (!user) {
+    res.status(404).send({messgae : "Người dùng này không tồn tại trong hệ thống"});
+    return;
+  }
+
+  let roles = await user.getRoles();
+  let hasRole = false;
+  for (let role of roles) {
+    if (role.dataValues.id === db.roleToId(addedRole)) {
+      hasRole = true;
+    }
+  }
+
+  if (hasRole) {
+    res.status(500).send({message : `Người dùng ${user.username} đã có quyền ${addedRole}, không thể thực hiện thêm.`})
+    return;
+  } else {
+    try {
+      await user.addRoles([db.roleToId(addedRole)]);
+      res.status(200).send({
+        message : `Cập nhật quyền thành công`,
+        userId : userId,
+        role : addedRole
+      });
+    } catch (error) {
+      res.status(500).send({
+        message : `Không thể thực hiện thêm quyền ${addedRole} cho người dùng ${user.dataValues.username}`,
+        error : error
+      })
+    }
+  }
+};

@@ -1,4 +1,4 @@
-const { verifySignUp, authJwt } = require("../middlewares");
+const { verifySignUp, authJwt, verifyRoleIntergrate } = require("../middlewares");
 const controller = require("../controllers/auth/auth.controller");
 
 module.exports = function (app) {
@@ -33,7 +33,37 @@ module.exports = function (app) {
     controller.inspectatorUser
   );
 
+
+  app.get(
+    "/api/auth/allUser",
+    [
+      authJwt.getAuthInfoFromGateway,
+      authJwt.isAdmin
+    ],
+    controller.getAllUser
+  );
+
   app.post("/api/auth/signin", controller.signIn);
+
+  app.post(
+    "/api/auth/removeRole", 
+    [
+      authJwt.getAuthInfoFromGateway,
+      authJwt.isAdmin,
+      verifyRoleIntergrate.checkRoleInputData
+    ],
+    controller.removeRole
+  );
+
+  app.post(
+    "/api/auth/addRole", 
+    [
+      authJwt.getAuthInfoFromGateway,
+      authJwt.isAdmin,
+      verifyRoleIntergrate.checkRoleInputData
+    ],
+    controller.addRole
+  )
 
   app.get("/api/user/:id", controller.getUserInfo);
 };

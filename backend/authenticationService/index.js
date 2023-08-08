@@ -59,12 +59,13 @@ async function initial() {
 function connectDb() {
     setTimeout(() => {
         db.sequelize
-            .sync({ alter: true })
+            .sync({ force : true })
             .then(() => {
                 console.log("SYNC DB DONE");
                 initial();
             })
             .catch((error) => {
+                console.log(error);
                 console.log("RECONNECT TO DB");
                 connectDb();
             });

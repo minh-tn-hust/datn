@@ -3,8 +3,8 @@ const config = require("../configs/db.config")
 const Sequelize = require("sequelize");
 
 let newConfig = {
-    host : config.HOST,
-    dialect : config.dialect,
+    host: config.HOST,
+    dialect: config.dialect,
     operatorsAliases: false,
     pool: {
         max: config.pool.max,
@@ -19,9 +19,9 @@ const sequelize = new Sequelize(
     config.USER,
     config.PASSWORD,
     {
-        host : config.HOST,
-        port : config.PORT,
-        dialect : config.dialect,
+        host: config.HOST,
+        port: config.PORT,
+        dialect: config.dialect,
         operatorsAliases: false,
         pool: {
             max: config.pool.max,
@@ -53,5 +53,18 @@ db.user.belongsToMany(db.role, {
 })
 
 db.ROLES = ["user", "mod", "admin"]
+db.roleToId = function (role) {
+    switch (role) {
+        case "user":
+            return 1;
+
+        case "mod":
+            return 2;
+
+        case "admin":
+            return 3;
+    }
+
+};
 
 module.exports = db;
