@@ -6,9 +6,18 @@ import {
   problemListSelector,
 } from "@/reducers/problem/problemSelector";
 import moment from "moment/moment";
+import { useEffect } from "react";
+import { useState } from "react";
 
 function HistorySlot({ submissionDetail, ...props }) {
   console.log(submissionDetail);
+  const [textColor, setTextColor] = useState("text-red-600");
+
+  useEffect(() => {
+    if (submissionDetail.status === "AC") {
+      setTextColor("text-green-500");
+    }
+  }, [submissionDetail]);
 
   return (
     <div
@@ -18,7 +27,7 @@ function HistorySlot({ submissionDetail, ...props }) {
     >
       <Link
         href={"/problems/" + submissionDetail.problemId}
-        className={"font-medium hover:text-cyan-700"}
+        className={`font-medium hover:text-cyan-700 ${textColor}`}
       >
         {submissionDetail.problemName}
       </Link>

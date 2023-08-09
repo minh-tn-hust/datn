@@ -48,6 +48,7 @@ function TokenHandler:access(conf)
         or request_path:find("getAllProblems") 
         or request_path:find("getAProblem")
         or request_path:find("ui")
+        or request_path:find("verifyToken")
     then
         -- Thực hiện xác nhận gói tin authen thành công
         -- kong.log.err("Authen package confirmed")

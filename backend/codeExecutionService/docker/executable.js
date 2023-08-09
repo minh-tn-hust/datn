@@ -1,6 +1,7 @@
 const Docker = require('dockerode');
 const Stream = require('stream');
 const BaseLanguage = require('./language/_base');
+require('dotenv').config()
 
 class LanguageContainer {
     /** @type number */ id = null;
@@ -44,7 +45,10 @@ class LanguageContainer {
     async createContainer() {
         return new Promise(async (resolve, reject) => {
             try {
-                this.container = await this.docker.createContainer(this.language.languageConfig);
+                this.container = await this.docker.createContainer({
+                    ...this.language.languageConfig,
+                    name : process.env.CONTAINER_PREFIX + (Math.round(Math.random() * 10000))
+                });
                 resolve(true);
             } catch (error) {
                 reject('[createContainer-Error] ' + error);

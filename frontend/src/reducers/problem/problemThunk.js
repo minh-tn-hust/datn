@@ -8,23 +8,26 @@ const fetchProblems = createAsyncThunk("problem/fetchProblems", async () => {
     let response = await ProblemApi.getAllProblem();
     let responseStatus = await ProblemApi.getAllSubmissions();
 
-    response.data.problems.forEach((problem) => {
-      const submissions = responseStatus.data.listSubmissions.filter(
-        (submission) => submission.problemId === problem.id
-      );
-      if (submissions.length > 0) {
-        const submissionAC = submissions.find(
-          (submission) => submission.status === "AC"
-        );
-        problem.status = submissionAC
-          ? submissionAC.status
-          : submissions[0].status;
-      } else {
-        problem.status = "NONE";
-      }
-    });
+    console.log(responseStatus.data.listSubmissions);
 
-    console.log(response.data);
+
+    if (responseStatus.data.listSubmissions) {
+      response.data.problems.forEach((problem) => {
+        const submissions = responseStatus.data.listSubmissions.filter(
+          (submission) => submission.problemId === problem.id
+        );
+        if (submissions.length > 0) {
+          const submissionAC = submissions.find(
+            (submission) => submission.status === "AC"
+          );
+          problem.status = submissionAC
+            ? submissionAC.status
+            : submissions[0].status;
+        } else {
+          problem.status = "NONE";
+        }
+      });
+    }
 
     return response.data;
   } catch (error) {

@@ -11,7 +11,9 @@ function App({ Component, ...rest }) {
   const { pageProps } = props;
 
   useEffect(() => {
-  store.dispatch(verifyToken());
+    if (localStorage.getItem("access_token")) {
+      store.dispatch(verifyToken());
+    }
   }, [1]);
 
   return (

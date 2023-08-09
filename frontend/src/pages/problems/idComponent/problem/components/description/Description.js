@@ -34,10 +34,10 @@ function ProblemDescription({ description, title, ...props }) {
         <ReactMarkdownRender markdownSource={description} />
       ) : (
         description !== null ? <>
-          <div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-16 mb-2 animate-pulse"></div>
-          <div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-full mb-2 animate-pulse"></div>
-          <div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w- mb-2 animate-pulse"></div>
-          <div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-32 mb-2 animate-pulse"></div>
+          <div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-16 mb-2 animate-pulse"></div>
+          <div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-full mb-2 animate-pulse"></div>
+          <div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w- mb-2 animate-pulse"></div>
+          <div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-32 mb-2 animate-pulse"></div>
         </>
         : ""
       )}

@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// const BASE_URL_AUTHEN = "http://localhost:8000/auth";
-const BASE_URL_AUTHEN = "http://localhost:3001";
+// const BASE_URL_AUTHEN = "http://localhost:3001";
+const BASE_URL_AUTHEN = "http://localhost:8000/auth";
 const BASE_URL_PB = "http://localhost:8000/problem-manage";
 const BASE_URL_CODE_EXECUTING = "http://localhost:8000/execution-service";
 
