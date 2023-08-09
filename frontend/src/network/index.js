@@ -8,6 +8,7 @@ const BASE_URL_CODE_EXECUTING = "http://localhost:8000/execution-service";
 const getHeader = function () {
   let access_token =
     typeof window !== "undefined" ? localStorage.getItem("access_token") : null;
+  
   let header;
   if (access_token) {
     header = {
@@ -23,9 +24,12 @@ const getHeader = function () {
       "Access-Control-Allow-Origin": "http://localhost:3000",
     };
   }
-  console.log("🚀 ~ file: index.js:21 ~ getHeader ~ header:", header)
+  if (process.env.ENV === "dev") {
+    header["x-authen-info"] = JSON.stringify(JSON.stringify({userId : 1, authenedRoles : ["mod, user"]}));
+  }
   return header;
 };
+
 
 const api = () => axios.create({
   baseURL: BASE_URL_AUTHEN,

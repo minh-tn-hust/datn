@@ -100,6 +100,42 @@ exports.signUpForAdmin = (req, res) => {
     });
 };
 
+exports.verifyToken = async (req, res) => {
+  let userId = req.userId;
+  try {
+    let user = await User.findOne({
+      where: {
+        id: userId
+      }
+    });
+
+    let authorities = [];
+    let roles = await user.getRoles()
+    for (let i = 0; i < roles.length; i++) {
+      authorities.push("ROLE_" + roles[i].name.toUpperCase());
+    }
+
+    var token = jwt.sign({ id: user.id }, config.secret, {
+      expiresIn: 86400, // 24 hours
+    });
+
+    res.status(200).send({
+      id: user.id,
+      username: user.username,
+      email: user.email,
+      roles: authorities,
+      accessToken: token,
+    });
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      message : "Lỗi trong quá trình xác thực token",
+      error : error
+    });
+  }
+}
+
 exports.inspectatorUser = (req, res) => {
   let userId = req.userId;
   let requestRoles = req.authenedRoles;
@@ -139,17 +175,17 @@ exports.getAllUser = async (req, res) => {
   let listResponse = [];
   for (let user of listUser) {
 
-    let responseRoles = [];
+    var authorities = [];
     let userRoles = await user.getRoles();
     for (let role of userRoles) {
-      responseRoles.push(role.dataValues.name);
+          authorities.push("ROLE_" + role.dataValues.name.toUpperCase());
     }
 
     listResponse.push({
-      userName : user.username,
-      email : user.email,
-      roles : responseRoles,
-      id : user.id
+      userName: user.username,
+      email: user.email,
+      roles: authorities,
+      id: user.id
     });
   }
 
@@ -158,14 +194,14 @@ exports.getAllUser = async (req, res) => {
 
 exports.removeRole = async (req, res) => {
   let userId = req.body.userId;
-  let removedRole =  req.body.role;
+  let removedRole = req.body.role;
 
   let user = await User.findOne({
-    where : {id : userId}
+    where: { id: userId }
   });
 
   if (!user) {
-    res.status(404).send({messgae : "Người dùng này không tồn tại trong hệ thống"});
+    res.status(404).send({ messgae: "Người dùng này không tồn tại trong hệ thống" });
   }
 
   let roles = await user.getRoles();
@@ -180,29 +216,30 @@ exports.removeRole = async (req, res) => {
     try {
       await user.removeRoles([db.roleToId(removedRole)]);
       res.status(200).send({
-        message : `Cập nhật quyền thành công`,
-        userId : userId,
-        role : role
+        message: `Cập nhật quyền thành công`,
+        userId: userId,
+        role: removedRole
       });
     } catch (error) {
-      res.status(500).send({message : `Không thể thực hiện xóa quyền này khỏi người dùng ${user.dataValues.username}`})
+      console.log(error);
+      res.status(500).send({ message: `Không thể thực hiện xóa quyền này khỏi người dùng ${user.dataValues.username}` })
     }
   } else {
-    res.status(500).send({message : `Người dùng ${user.username} không có quyền ${removedRole}, không thể xóa quyền.` })
+    res.status(500).send({ message: `Người dùng ${user.username} không có quyền ${removedRole}, không thể xóa quyền.` })
   }
 };
 
 
 exports.addRole = async (req, res) => {
   let userId = req.body.userId;
-  let addedRole =  req.body.role;
+  let addedRole = req.body.role;
 
   let user = await User.findOne({
-    where : {id : userId}
+    where: { id: userId }
   });
 
   if (!user) {
-    res.status(404).send({messgae : "Người dùng này không tồn tại trong hệ thống"});
+    res.status(404).send({ messgae: "Người dùng này không tồn tại trong hệ thống" });
     return;
   }
 
@@ -215,20 +252,20 @@ exports.addRole = async (req, res) => {
   }
 
   if (hasRole) {
-    res.status(500).send({message : `Người dùng ${user.username} đã có quyền ${addedRole}, không thể thực hiện thêm.`})
+    res.status(500).send({ message: `Người dùng ${user.username} đã có quyền ${addedRole}, không thể thực hiện thêm.` })
     return;
   } else {
     try {
       await user.addRoles([db.roleToId(addedRole)]);
       res.status(200).send({
-        message : `Cập nhật quyền thành công`,
-        userId : userId,
-        role : addedRole
+        message: `Cập nhật quyền thành công`,
+        userId: userId,
+        role: addedRole
       });
     } catch (error) {
       res.status(500).send({
-        message : `Không thể thực hiện thêm quyền ${addedRole} cho người dùng ${user.dataValues.username}`,
-        error : error
+        message: `Không thể thực hiện thêm quyền ${addedRole} cho người dùng ${user.dataValues.username}`,
+        error: error
       })
     }
   }

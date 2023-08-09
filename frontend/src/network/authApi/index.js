@@ -23,4 +23,8 @@ AuthApi.getUserInfo = ({ id }) => {
   return api().get("/api/user/" + id);
 };
 
+AuthApi.verifyToken = () => {
+  return api().get("/api/auth/verifyToken");
+}
+
 export default AuthApi;

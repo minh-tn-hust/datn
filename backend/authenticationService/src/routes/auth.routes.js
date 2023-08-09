@@ -29,7 +29,10 @@ module.exports = function (app) {
 
   app.get(
     "/api/auth/inspectator",
-    [authJwt.verifyToken, authJwt.getAllAuthenInfo],
+    [
+      authJwt.verifyToken, 
+      authJwt.getAllAuthenInfo
+    ],
     controller.inspectatorUser
   );
 
@@ -63,6 +66,15 @@ module.exports = function (app) {
       verifyRoleIntergrate.checkRoleInputData
     ],
     controller.addRole
+  );
+  
+  app.get(
+    "/api/auth/verifyToken",
+    [
+      authJwt.verifyToken, 
+      authJwt.getAllAuthenInfo
+    ],
+    controller.verifyToken
   )
 
   app.get("/api/user/:id", controller.getUserInfo);

@@ -1,4 +1,8 @@
+import { getAuthenRole } from "@/reducers/authentication/authenticationSelector";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { ADMIN_FEATURE } from "../..";
+import { ROLE } from "@/constants/role";
 
 function FeatureButton({ title, onClickHandle, isSelected, ...props }) {
   const commonStyle = "h-10 relative ";
@@ -41,6 +45,8 @@ function FeatureButton({ title, onClickHandle, isSelected, ...props }) {
 }
 
 export default function FeatureBar({ listFeature, currentFeature, ...props }) {
+  const role =  useSelector(getAuthenRole);
+
   return (
     <div
       className={
@@ -49,6 +55,9 @@ export default function FeatureBar({ listFeature, currentFeature, ...props }) {
     >
       {
         listFeature ? listFeature.map((feature, index) => {
+          if (feature.enum == ADMIN_FEATURE.MANAGE_USER && role.indexOf(ROLE.ADMIN) === -1) {
+            return <></>;
+          }
           return (
             <FeatureButton
               key={"feature_key" + index}

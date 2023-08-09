@@ -1,13 +1,13 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {ROLE} from "@/constants/role";
-import {signIn, signUp} from "@/reducers/authentication/authenticationThunk";
+import {signIn, signUp, verifyToken} from "@/reducers/authentication/authenticationThunk";
 import {getSuccessMessage} from "@/reducers/authentication/authenticationSelector";
 
 const authenticationSlice = createSlice({
     name: "authentication",
     initialState: {
         id : -1,
-        role: ROLE.NON_AUTHORIZE,
+        role: [ROLE.NON_AUTHORIZE],
         email: "",
         username: "",
         successMessage : "",
@@ -40,6 +40,16 @@ const authenticationSlice = createSlice({
                     state.failMessage = payload.message;
                 } else {
                     state.successMessage = payload.message;
+                }
+            })
+            .addCase(verifyToken.fulfilled, (state, action) => {
+                let payload = action.payload;
+                if (payload.status === undefined) {
+                    state.id = payload.id;
+                    state.role = payload.roles;
+                    state.username = payload.username;
+                    state.email = payload.email;
+                    localStorage.setItem("access_token", payload.accessToken);
                 }
             })
     }

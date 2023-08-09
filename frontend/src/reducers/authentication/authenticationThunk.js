@@ -6,7 +6,6 @@ const signIn = createAsyncThunk(
     async (loginInfo, thunkApi) => {
         try {
             const response = await AuthApi.signIn(loginInfo);
-            console.log("🚀 ~ file: authenticationThunk.js:8 ~ response:", response.data)
             if (response.status != 200) {
                 return {
                     status: false,
@@ -29,7 +28,22 @@ const signUp = createAsyncThunk(
     }
 )
 
+const verifyToken = createAsyncThunk(
+    'authentication/verifyToken',
+    async () => {
+        const response = await AuthApi.verifyToken();
+        if (response.status != 200) {
+            return {
+                status: false,
+                message: response.data.message
+            }
+        }
+        return response.data;
+    }
+)
+
 export {
     signIn,
-    signUp
+    signUp,
+    verifyToken
 }

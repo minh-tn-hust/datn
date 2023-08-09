@@ -28,7 +28,7 @@ export default function ProblemList({ reload, setReload, props }) {
   useEffect(() => {
     AdminApi.getAllProblems().then((res) => {
       setProblemList(res.data.problems);
-    });
+    }).catch((error) => console.log("problemList : useEffect : 35 " + error));
     setReload(false);
   }, [reload, setReload]);
 

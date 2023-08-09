@@ -1,4 +1,4 @@
-import { api_pb } from "@/network";
+import { api, api_pb } from "@/network";
 
 const AdminApi = {};
 
@@ -81,5 +81,24 @@ AdminApi.updateTestcase = ({ testcaseId, input, output, explaination }) => {
 AdminApi.deleteTestcase = (testcaseId) => {
   return api_pb().delete("/api/testcase/deleteTestcase/" + testcaseId);
 };
+
+AdminApi.getAllUser = () => {
+  return api().get("/api/auth/allUser");
+}
+
+AdminApi.addRole = (userId, role) => {
+  return api().post("/api/auth/addRole", {
+    userId : userId,
+    role : role
+  });
+}
+
+AdminApi.removeRole = (userId, role) => {
+  return api().post("/api/auth/removeRole", {
+    userId : userId,
+    role : role
+  });
+}
+
 
 export default AdminApi;

@@ -8,7 +8,7 @@ verifyToken = (req, res, next) => {
 
     if (!token) {
         return res.status(403).send({
-            message: "No token provided!"
+            message: "Không thể xác thực được token được cung cấp, vui lòng đăng nhập"
         });
     }
 
@@ -55,7 +55,7 @@ isAdmin = (req, res, next) => {
             }
 
             res.status(403).send({
-                message: "Require Admin Role!"
+                message: "Yêu cầu quyền truy cập admin"
             });
             return;
         });
@@ -67,14 +67,18 @@ getAuthInfoFromGateway = (req, res, next) => {
 
     if (!infoHeader) {
         res.status(404).send({
-            message: "Unauthized"
+            message: "Không thể xác thực được người dùng"
         })
     }
 
-    let info = JSON.parse(JSON.parse(infoHeader));
-    req.userId = info.userId;
-    req.authenedRoles = info.authenedRoles;
-    next();
+    try {
+        let info = JSON.parse(JSON.parse(infoHeader));
+        req.userId = info.userId;
+        req.authenedRoles = info.authenedRoles;
+        next();
+    } catch (error) {
+        res.status(500).send({message : "Không thể phân giải được thông tin xác thực, vui lòng kiểm tra lại"});
+    }
 };
 
 const authJwt = {

@@ -23,11 +23,11 @@ export default function NavBar(props) {
   const role = useSelector(currentRole);
   const username = useSelector(getUsername);
   const authenState = useSelector(getAuthenRole);
-  console.log("🚀 ~ file: index.js:21 ~ NavBar ~ authenState:", authenState);
+
   const dispatch = useDispatch();
 
   const displayWithAuthenState = function () {
-    if (authenState === ROLE.NON_AUTHORIZE) {
+    if (authenState.indexOf(ROLE.NON_AUTHORIZE) !== -1) {
       return (
         <NavBarLink
           href={loginPage.href}
@@ -119,7 +119,7 @@ export default function NavBar(props) {
               />
             );
           })}
-          {role.indexOf(ROLE.ADMIN) !== -1 ? (
+          {role.indexOf(ROLE.ADMIN) !== -1 || role.indexOf(ROLE.MOD) !== -1 ? (
             <NavBarLink
               key={"NavBarLink_ADMIN"}
               href={adminPage.href}
