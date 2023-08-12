@@ -1,0 +1,32 @@
+version: '2'
+
+services:
+  mysql_code_2:
+    hostname: codedb-2
+    container_name: code-db-2
+    image: mysql:8.0.31
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: "@123123abc"
+      MYSQL_DATABASE: "submissiondb"
+      MYSQL_TCP_PORT: 3308
+    networks:
+      - kong-net
+
+  nodejs_2:
+    hostname: executionservice-2
+    container_name: execution-service-2
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      - mysql_code_2
+    networks:
+      - kong-net
+
+networks:
+  kong-net:
+    external: true
