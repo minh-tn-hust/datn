@@ -867,7 +867,6 @@ GO 200
 2023-08-13 15:41:10 e8dacc10-cad9-41c6-9c11-a810beee2032 endTime 1691916070299
 2023-08-13 15:41:10 cb30a89c-9ecc-4450-87c5-5d57aa6d2202 beginTime 1691915965281
 2023-08-13 15:41:10 cb30a89c-9ecc-4450-87c5-5d57aa6d2202 endTime 1691916070303
-2023-08-13 15:41:10 [createContainer-Error] Error: (HTTP code 409) unexpected - Conflict. The container name "/codeServer_1st_187" is already in use by container "de3653c8b2e03d8e23a5fb0b7f98fbcf39042c9e09fbb2a37383da6d7956ee99". You have to remove (or rename) that container to be able to reuse that name. 
 2023-08-13 15:41:10 6fc90ef8-c544-47e6-afb7-1fbdeb147773 beginTime 1691915965259
 2023-08-13 15:41:10 6fc90ef8-c544-47e6-afb7-1fbdeb147773 endTime 1691916070767
 2023-08-13 15:41:11 6cdf2938-a0b8-4495-a196-0df46d5893ff beginTime 1691915965282
@@ -1150,4 +1149,3 @@ GO 200
 2023-08-13 15:45:02 12d07f55-8bf7-4b42-839a-19be9e64edff endTime 1691916302987
 2023-08-13 15:45:04 f0dd287a-f28b-4ad5-b2e5-99a2adaf8425 beginTime 1691915965224
 2023-08-13 15:45:04 f0dd287a-f28b-4ad5-b2e5-99a2adaf8425 endTime 1691916304850
-
