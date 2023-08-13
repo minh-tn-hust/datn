@@ -1,7 +1,7 @@
 const axios = require("axios");
 
-const NUMBER_OF_TEST = 200;
 
+const NUMBER_OF_TEST = 75;
 const RUN_CODE_URL = "http://localhost:8000/execution-service/runWithSaving";
 const AUTHEN_URL = "http://localhost:8000/auth/api/auth/signin";
 
@@ -24,9 +24,8 @@ const createACTest = async function() {
         "content-type" : "application/json",
         "x-access-token" : ACCESS_TOKEN,
     }
-    console.log(headers);
     try {
-        let res = await axios.post(RUN_CODE_URL, AC_JAVA_DATA, {
+        let res = await axios.post(RUN_CODE_URL, AC_CPP_DATA, {
             headers : headers,
             timeout : 5 * 60 * 1000
         });
@@ -56,5 +55,6 @@ async function main() {
     runTest();
 }
 
+console.log(NUMBER_OF_TEST);
 main();
 
