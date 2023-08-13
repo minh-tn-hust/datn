@@ -1,7 +1,7 @@
 const axios = require("axios");
 
 
-const NUMBER_OF_TEST = 75;
+const NUMBER_OF_TEST = 200;
 const RUN_CODE_URL = "http://localhost:8000/execution-service/runWithSaving";
 const AUTHEN_URL = "http://localhost:8000/auth/api/auth/signin";
 
