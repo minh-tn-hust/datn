@@ -28,7 +28,7 @@ function createWorkerResponse(type) {
 }
 
 async function createContainer(wokerData) {
-  console.log("STEP 1: Create Container")
+  // console.log("STEP 1: Create Container")
   const /** @type Language.SUPPORTED */ languageType = wokerData.languageType;
   const timeLimited = wokerData.timeLimited;
   const executionPath = workerData.workingDirectory;
@@ -91,7 +91,7 @@ function handleSendMessage(message) {
  * @param {{buffer : string, fileName : string}} data 
  */
 async function createFile(data) {
-  console.log("STEP 2: Create Source file")
+  // console.log("STEP 2: Create Source file")
   let response = createWorkerResponse(WorkerJob.TYPE.CREATE_FILE);
   try {
     await dockerContainer.createFileWithBuffer(data.buffer, data.fileName);
@@ -139,7 +139,7 @@ function convertToStatus(runInfo) {
 }
 
 async function runCodeWithSaving(data) {
-  console.log("STEP 3: Compile && Run code")
+  // console.log("STEP 3: Compile && Run code")
   let response = createWorkerResponse(WorkerJob.TYPE.EXECUTING);
   try {
     await getTestCase(data.problemId);
@@ -229,7 +229,7 @@ async function runCodeWithSaving(data) {
 }
 
 async function runCodeWithoutSaving(data) {
-  console.log("STEP 3: Compile && Run code")
+  // console.log("STEP 3: Compile && Run code")
   let response = createWorkerResponse(WorkerJob.TYPE.EXECUTING);
   try {
     await getTestCase(data.problemId);

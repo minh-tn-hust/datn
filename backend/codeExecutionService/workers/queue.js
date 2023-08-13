@@ -1,11 +1,13 @@
 const workerConfig = require("../configs/wokers.config");
 const { WorkerJob, default: job } = require("./job");
+const {v4 : uuidv4} = require('uuid');
 
 class JobData {
     timeLimited = null;
     memoryLimited = null;
     languageType = null;
     id = null;
+    createdTime = null;
 
     handleRunFinishCallback = null;
     source = null;
@@ -16,7 +18,8 @@ class JobData {
         this.languageType = languageType;
         this.timeLimited = timeLimited;
         this.memoryLimited = memoryLimited;
-        this.id = Math.floor(Math.random() * 1000000) % 1000000;
+        this.id = uuidv4();
+        this.createdTime = Date.now();
     }
 }
 

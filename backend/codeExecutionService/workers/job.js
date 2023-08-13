@@ -190,6 +190,9 @@ class WorkerJob {
 
     handleRunningFinish(response) {
         this.setStatus(WorkerJob.STATUS.AVAILABLE);
+        let jobData = this.data;
+        console.log(jobData.id + " beginTime " + jobData.createdTime);
+        console.log(jobData.id + " endTime " + Date.now());
         this.data.handleRunFinishCallback(response);
         this.setData(null);
         this.queue.runNextJob();
