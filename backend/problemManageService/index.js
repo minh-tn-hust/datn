@@ -28,7 +28,7 @@ app.get('/', (_req, res) => {
 });
 require('./src/routes/problem.routes')(app);
 require('./src/routes/testcase.routes')(app);
-
+require('./src/routes/languageSupport.routes')(app);
 // DB CONNECT
 const db = require('./src/models');
 const Categories = db.category;
@@ -37,7 +37,7 @@ const Categories = db.category;
 function connectDb() {
   setTimeout(() => {
     db.sequelize
-        .sync({alter: true})
+        .sync({force: true})
         .then(() => {
           console.log('SYNC DB DONE');
           initial();

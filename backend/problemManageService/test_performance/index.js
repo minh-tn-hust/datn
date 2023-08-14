@@ -1,8 +1,10 @@
 const fs = require('fs');
 const db = require('../src/models');
+const { LANGUAGE_SUPPORT } = require('../src/configs/problem.config');
 
 const Problem = db.problem;
 const Testcase = db.testcase;
+const LanguageSupport = db.languageSupport;
 
 
 
@@ -64,6 +66,16 @@ const createTestPerformanceProblem = async () => {
     
     let problem = await Problem.create(problemData);
     createTestCase(problem);
+
+
+    for (let languageType of Object.values(LANGUAGE_SUPPORT)) {
+      const language = await LanguageSupport.create({
+        type: languageType,
+        timeLimited: 2,
+        memoryLimited: 128
+      });
+      problem.addLanguageSupport(language);
+    }
 }
 
 module.exports = createTestPerformanceProblem;

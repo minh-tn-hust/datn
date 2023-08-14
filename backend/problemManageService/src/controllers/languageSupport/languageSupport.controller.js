@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 const db = require('../../models');
 
-const Problem = db.Problem;
+const Problem = db.problem;
 
 exports.updateLanguageSupport = async (req, res) => {
   const {problemId, languageType, timeLimited, memoryLimited} = req.body;
@@ -35,12 +35,13 @@ exports.updateLanguageSupport = async (req, res) => {
 };
 
 exports.getAllLanguageSupport = async (req, res) => {
-  const {problemId} = req.body;
+  const problemId = req.params.problemId;
   try {
     const problem = await Problem.findByPk(problemId);
 
     if (!problem) {
       res.status(404).send({message: 'Không tìm thấy đề bài được yêu cầu, vui lòng thử lại sau'});
+      return;
     }
 
     const listLanguageSupport = await problem.getLanguageSupports();
@@ -56,7 +57,9 @@ exports.getAllLanguageSupport = async (req, res) => {
     res.status(200).send({listLanguageSupport: responseData});
     return;
   } catch (error) {
+    console.log(error);
     res.status(500).send({message: 'Có lỗi xảy ra trong quá thực hiện thao tác, vui lòng thử lại sau'});
   }
 };
+
 

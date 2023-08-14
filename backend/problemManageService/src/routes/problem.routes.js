@@ -52,4 +52,5 @@ module.exports = function (app) {
     middleware.auth.isAdminOrMod,
     controller.addLanguage
   );
+
 };

@@ -33,7 +33,7 @@ db.sequelize = sequelize;
 db.problem = require('./problem.model')(sequelize, Sequelize);
 db.testcase = require('./testcase.model')(sequelize, Sequelize);
 db.category = require('./category.model')(sequelize, Sequelize);
-db.languageSupport = require('./languageSupport.model').default(sequelize, Sequelize);
+db.languageSupport = require('./languageSupport.model')(sequelize, Sequelize);
 
 // 1 category ~ n problem
 db.category.belongsToMany(db.problem, {

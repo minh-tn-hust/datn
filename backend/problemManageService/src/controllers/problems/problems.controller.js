@@ -22,8 +22,9 @@ exports.addProblem = async (req, res) => {
 
   const userId = req.userId;
 
+  let problem;
   try {
-    const problem = await Problem.create({
+    problem = await Problem.create({
       problemName: problemName,
       hardLevel: hardLevel,
       description: description,
@@ -256,9 +257,20 @@ exports.getAProblem = async (req, res) => {
       console.log(problem);
     }
 
+    let listLanguageSupport = await problem.getLanguageSupports();
+    let langauges = [];
+    for (let language of listLanguageSupport) {
+      langauges.push({
+        type : language.type,
+        memoryLimited : language.memoryLimited,
+        timeLimited : language.timeLimited
+      });
+    }
+
     res.status(200).send({
       problem: problem,
       listDemoTestcase: listDemoTestcase,
+      listLanguageSupport: langauges
     });
   } catch (error) {
     res.status(500).send({
@@ -271,8 +283,9 @@ exports.getAProblem = async (req, res) => {
 exports.deleteAProblem = async (req, res) => {
   const problemId = req.params.id;
 
+  let problem;
   try {
-    const problem = await Problem.findByPk(problemId);
+    problem = await Problem.findByPk(problemId);
     if (!problem) {
       return res.status(404).send({
         message: `Problem with id ${problemId} not found.`,
