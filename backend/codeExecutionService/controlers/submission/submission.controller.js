@@ -9,12 +9,13 @@ exports.initServer = async (req, res) => {
 };
 
 /**
- * @param {{userId : number, authenedRoles : Array<String>, body : {source : string, problemId : int}, language : String}} req
+ * @param {{userId : number, authenedRoles : Array<String>, body : {source : string, problemId : int, language : String, timeLimited : Number, memoryLimited : Number}}} req
  * @param {*} res
  */
 exports.runWithoutStoreData = async (req, res) => {
+
   let workerQueue = WorkerQueueSingleton.getInstance();
-  let jobData = new JobData(2000 /** ms */, 256, req.body.language);
+  let jobData = new JobData(req.body.timeLimited /** ms */, req.body.memoryLimited, req.body.language);
   jobData.source = req.body.source;
   jobData.problemId = req.body.problemId;
   jobData.handleRunFinishCallback = async function (data) {
@@ -24,12 +25,12 @@ exports.runWithoutStoreData = async (req, res) => {
 };
 
 /**
- * @param {{userId : number, authenedRoles : Array<String>, body : {source : string, problemId : int}}} req
+ * @param {{userId : number, authenedRoles : Array<String>, body : {source : string, problemId : int, language : String, timeLimited : Number, memoryLimited : Number}}} req
  * @param {*} res
  */
 exports.runWithStoreData = async (req, res) => {
   let workerQueue = WorkerQueueSingleton.getInstance();
-  let jobData = new JobData(2000 /** ms */, 256, req.body.language);
+  let jobData = new JobData(req.body.timeLimited /** ms */, req.body.memoryLimited, req.body.language);
   jobData.source = req.body.source;
   jobData.problemId = req.body.problemId;
   jobData.isStore = true;

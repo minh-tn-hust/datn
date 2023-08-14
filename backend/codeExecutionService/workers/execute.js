@@ -33,6 +33,8 @@ async function createContainer(wokerData) {
   const timeLimited = wokerData.timeLimited;
   const executionPath = workerData.workingDirectory;
   const language = Language.create(languageType, executionPath);
+  language.setMemoryLimted(wokerData.memoryLimited);
+  language.setLanguageConfig();
 
   try {
     dockerContainer = new LanguageContainer(language, timeLimited);

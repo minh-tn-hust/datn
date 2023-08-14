@@ -15,13 +15,20 @@ class BaseLanguage {
     /** @type Docker.ExecCreateOptions */  compileOption = null;
     /** @type Docker.ExecCreateOptions */ runOption = null;
     /** @type Docker.ContainerCreateOptions */ languageConfig = null;
+    /** @type Number */ memoryLimited = null;
 
-    constructor(directoryPath, fileName = 'A.cpp') {
+    constructor(directoryPath, fileName = 'A.cpp', memoryLimited = 256) {
         this.setSourceFileName(fileName);
         this.setBaseDirectory(directoryPath);
+        this.setMemoryLimted(memoryLimited);
+
         this.setCompileOption();
         this.setLanguageConfig();
         this.setRunOption();
+    }
+
+    setMemoryLimted(memory) {
+        this.memoryLimited = this.memoryLimited;
     }
 
     setSourceFileName(fileName) {

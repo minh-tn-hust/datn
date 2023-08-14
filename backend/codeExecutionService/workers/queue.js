@@ -70,6 +70,7 @@ class WorkerQueue {
         let workerData = {
             languageType: jobData.languageType,
             timeLimited: jobData.timeLimited,
+            memoryLimited: jobData.memoryLimited,
             workingDirectory: __dirname + '/source/' + Math.round(Math.random() * 1000),
         }
         worker.setData(jobData);

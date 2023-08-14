@@ -56,6 +56,14 @@ class LanguageContainer {
         })
     }
 
+    async updateMemoryLimited(memoryLimited) {
+        if (memoryLimited !== this.language.memoryLimited) {
+            this.language.setMemoryLimted(memoryLimited);
+            this.language.setLanguageConfig();
+            await this.createContainer();
+        }
+    }
+
     async startContainer() {
         return new Promise(async (resolve, reject) => {
             try {
@@ -281,6 +289,9 @@ class LanguageContainer {
      * @param {number} newTimeLimited 
      */
     updateTimelimited(newTimeLimited) {
+        if (!newTimeLimited) {
+            newTimeLimited = 2000;
+        }
         this.timeLimited = newTimeLimited;
     }
 }

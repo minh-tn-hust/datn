@@ -26,7 +26,7 @@ class GOLanguage extends BaseLanguage {
             Tty: true,
             HostConfig: {
                 // Binds: [`${this.baseDirectory}:/source`],
-                Memory: 256 * 1024 * 1024,
+                Memory: this.memoryLimited * 1024 * 1024,
                 NanoCPUs: 1000000000, // Số lượng CPU ảo (2 CPU ảo)
             },
             WorkingDir: '/source',
