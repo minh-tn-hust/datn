@@ -15,7 +15,7 @@ exports.initServer = async (req, res) => {
 exports.runWithoutStoreData = async (req, res) => {
 
   let workerQueue = WorkerQueueSingleton.getInstance();
-  let jobData = new JobData(req.body.timeLimited /** ms */, req.body.memoryLimited, req.body.language);
+  let jobData = new JobData(req.body.timeLimited * 1000 /** ms */, req.body.memoryLimited, req.body.language);
   jobData.source = req.body.source;
   jobData.problemId = req.body.problemId;
   jobData.handleRunFinishCallback = async function (data) {
@@ -30,7 +30,7 @@ exports.runWithoutStoreData = async (req, res) => {
  */
 exports.runWithStoreData = async (req, res) => {
   let workerQueue = WorkerQueueSingleton.getInstance();
-  let jobData = new JobData(req.body.timeLimited /** ms */, req.body.memoryLimited, req.body.language);
+  let jobData = new JobData(req.body.timeLimited * 1000 /** ms */, req.body.memoryLimited, req.body.language);
   jobData.source = req.body.source;
   jobData.problemId = req.body.problemId;
   jobData.isStore = true;

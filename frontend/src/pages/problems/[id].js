@@ -8,6 +8,7 @@ import dynamic from "next/dynamic";
 import { useDispatch, useSelector } from "react-redux";
 import { changeToListProblem } from "@/reducers/appRoutes/appRoutesReducer";
 import {
+  getListLanguage,
   getListTestCase,
   problemByIdSelector,
 } from "@/reducers/problem/problemSelector";
@@ -40,6 +41,7 @@ export default function DoingProblem({ ...props }) {
 
   const problemDetail = useSelector(problemByIdSelector);
   const listDemoTestacse = useSelector(getListTestCase);
+  const listLanguage = useSelector(getListLanguage)
 
   useEffect(() => {
     if (id !== undefined) {
@@ -82,22 +84,51 @@ export default function DoingProblem({ ...props }) {
     setLanguage(newLanguage);
   };
 
+  const findLanguageConfig = (languageType) => {
+    for (let language of listLanguage) {
+      if (language.type === languageType) {
+        return language;
+      }
+    }
+  }
+
   const handleRun = () => {
+    let languageConfig = findLanguageConfig(language);
+    if (!languageConfig) {
+      languageConfig = {
+        type : language,
+        timeLimited : 2,
+        memoryLimited : 128
+      }
+    }
+
     let codeInfo = {
       code: code,
       language: language,
-
       problemId: id,
+      timeLimited : languageConfig.timeLimited,
+      memoryLimited : languageConfig.memoryLimited
     };
     dispatch(loadingOn());
     dispatch(runCodeWithoutSaving(codeInfo));
   };
 
   const handleSubmit = () => {
+    let languageConfig = findLanguageConfig(language);
+    if (!languageConfig) {
+      languageConfig = {
+        type : language,
+        timeLimited : 2,
+        memoryLimited : 128,
+      }
+    }
+
     let codeInfo = {
       code: code,
       language: language,
       problemId: id,
+      timeLimited : languageConfig.timeLimited,
+      memoryLimited : languageConfig.memoryLimited
     };
     dispatch(loadingOn());
     dispatch(runCodeWithSaving(codeInfo));

@@ -2,6 +2,7 @@ export const problemListSelector = (state) => state.problem.listProblem;
 export const problemByIdSelector = (state) => state.problem.selectedProblem;
 
 export const getListTestCase = (state) => state.problem.demoTestCase;
+export const getListLanguage = (state) => state.problem.listLanguage;
 
 export const getRunningInfoSelector = (state) =>
   state.problem.runningResult ? state.problem.runningResult : "";

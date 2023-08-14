@@ -37,7 +37,7 @@ const Categories = db.category;
 function connectDb() {
   setTimeout(() => {
     db.sequelize
-        .sync({force: true})
+        .sync({alter: true})
         .then(() => {
           console.log('SYNC DB DONE');
           initial();

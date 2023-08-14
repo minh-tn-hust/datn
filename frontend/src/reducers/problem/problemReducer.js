@@ -22,6 +22,7 @@ const problemSlice = createSlice({
     // Use for doing page
     selectedProblem: {},
     demoTestCase: [],
+    listLanguage: [],
 
     // Use for load submission
     listSubmission: [],
@@ -37,6 +38,7 @@ const problemSlice = createSlice({
     resetSelectedProblem: (state) => {
       state.selectedProblem = {};
       state.demoTestCase = [];
+      state.listLanguage = [];
       state.runningResult = {};
       state.isLoading = false;
       state.listSubmission = [];
@@ -74,6 +76,7 @@ const problemSlice = createSlice({
       if (action.payload) {
         state.selectedProblem = action.payload.problem;
         state.demoTestCase = action.payload.listDemoTestcase;
+        state.listLanguage = action.payload.listLanguageSupport;
       }
     });
 
@@ -105,19 +108,23 @@ const problemSlice = createSlice({
 
     builder.addCase(getSubmissionById.fulfilled, (state, action) => {
       if (action.payload) {
-        state.listSubmission = action.payload.listSubmissions;
-        state.listSubmission = state.listSubmission.sort((a, b) => {
-          return -a.updatedAt.localeCompare(b);
-        });
+        if (action.payload.listSubmissions) {
+          state.listSubmission = action.payload.listSubmissions;
+          state.listSubmission = state.listSubmission.sort((a, b) => {
+            return -a.updatedAt.localeCompare(b);
+          });
+        }
       }
     });
 
     builder.addCase(getAllSubmissions.fulfilled, (state, action) => {
       if (action.payload) {
-        state.listAllSubmissions = action.payload.listSubmissions;
-        state.listAllSubmissions = state.listAllSubmissions.sort((a, b) => {
-          return -a.updatedAt.localeCompare(b);
-        });
+        if (action.payload.listAllSubmissions) {
+          state.listAllSubmissions = action.payload.listSubmissions;
+          state.listAllSubmissions = state.listAllSubmissions.sort((a, b) => {
+            return -a.updatedAt.localeCompare(b);
+          });
+        }
       }
     });
   },

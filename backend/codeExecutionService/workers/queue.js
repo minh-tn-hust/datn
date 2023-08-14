@@ -51,6 +51,7 @@ class WorkerQueue {
                 workerData: {
                     languageType: jobData.languageType,
                     timeLimited: jobData.timeLimited,
+                    memoryLimited: jobData.memoryLimited,
                     workingDirectory: process.cwd() + '/source/' + Math.round(Math.random() * 1000),
                 },
             },

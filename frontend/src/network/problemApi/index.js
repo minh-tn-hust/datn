@@ -40,19 +40,30 @@ ProblemApi.updateProblem = ({
   });
 };
 
-ProblemApi.runWithoutSaving = ({ code, problemId, language }) => {
+ProblemApi.runWithoutSaving = ({ code, problemId, language, timeLimited, memoryLimited }) => {
+  console.log({
+    source: code,
+    problemId: problemId,
+    language: language,
+    timeLimited : timeLimited,
+    memoryLimited : memoryLimited
+  })
   return api_code_executing().post("/runWithoutSaving", {
     source: code,
     problemId: problemId,
     language: language,
+    timeLimited : timeLimited,
+    memoryLimited : memoryLimited
   });
 };
 
-ProblemApi.runWithSaving = ({ code, problemId, language }) => {
+ProblemApi.runWithSaving = ({ code, problemId, language, timeLimited, memoryLimited }) => {
   return api_code_executing().post("/runWithSaving", {
     source: code,
     problemId: problemId,
     language: language,
+    timeLimited : timeLimited,
+    memoryLimited : memoryLimited
   });
 };
 
