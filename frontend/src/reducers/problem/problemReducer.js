@@ -108,8 +108,8 @@ const problemSlice = createSlice({
 
     builder.addCase(getSubmissionById.fulfilled, (state, action) => {
       if (action.payload) {
+        state.listSubmission = action.payload.listSubmissions;
         if (action.payload.listSubmissions) {
-          state.listSubmission = action.payload.listSubmissions;
           state.listSubmission = state.listSubmission.sort((a, b) => {
             return -a.updatedAt.localeCompare(b);
           });
@@ -119,8 +119,8 @@ const problemSlice = createSlice({
 
     builder.addCase(getAllSubmissions.fulfilled, (state, action) => {
       if (action.payload) {
+        state.listAllSubmissions = action.payload.listSubmissions;
         if (action.payload.listAllSubmissions) {
-          state.listAllSubmissions = action.payload.listSubmissions;
           state.listAllSubmissions = state.listAllSubmissions.sort((a, b) => {
             return -a.updatedAt.localeCompare(b);
           });
